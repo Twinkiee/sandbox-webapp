@@ -1,0 +1,37 @@
+plugins {
+    id "org.springframework.boot" version "1.5.9.RELEASE"
+}
+
+group 'org.twinkie'
+version '1.0-SNAPSHOT'
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+
+    // https://mvnrepository.com/artifact/org.apache.camel/camel-spring-boot
+    compile ("org.apache.camel:camel-spring-boot:2.19.1")
+    compile ("org.apache.camel:camel-stream-starter:2.19.1")
+    compile ("org.apache.camel:camel-restlet:2.19.1")
+    compile ("org.flywaydb:flyway-core:4.2.0")
+    compile ("org.springframework.boot:spring-boot-starter-web")
+    compile ("org.springframework.boot:spring-boot-starter-jdbc")
+    compile ("org.springframework.boot:spring-boot-starter-activemq")
+    compile ("org.restlet.jee:org.restlet.ext.spring:2.3.10")
+    compile ("org.apache.activemq:activemq-camel")
+
+    runtime ("com.h2database:h2")
+
+    testCompile ("junit:junit:4.12")
+}
+
