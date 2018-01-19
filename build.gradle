@@ -23,12 +23,16 @@ dependencies {
     compile ("org.apache.camel:camel-spring-boot:2.19.1")
     compile ("org.apache.camel:camel-stream-starter:2.19.1")
     compile ("org.apache.camel:camel-restlet:2.19.1")
+    compile ("org.apache.camel:camel-servlet:2.19.1")
     compile ("org.flywaydb:flyway-core:4.2.0")
     compile ("org.springframework.boot:spring-boot-starter-web")
     compile ("org.springframework.boot:spring-boot-starter-jdbc")
     compile ("org.springframework.boot:spring-boot-starter-activemq")
     compile ("org.restlet.jee:org.restlet.ext.spring:2.3.10")
     compile ("org.apache.activemq:activemq-camel")
+    compile ("org.webjars:bootstrap:3.3.6")
+    compile ("org.webjars:bootstrap-datepicker:1.0.1")
+    compile ("org.webjars:jquery:1.9.1")
 
     runtime ("com.h2database:h2")
 

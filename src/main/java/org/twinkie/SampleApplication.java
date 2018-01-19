@@ -1,5 +1,6 @@
 package org.twinkie;
 
+import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.restlet.Component;
 import org.restlet.ext.spring.SpringServerServlet;
 import org.springframework.boot.SpringApplication;
@@ -10,12 +11,18 @@ import org.springframework.jms.connection.JmsTransactionManager;
 
 import javax.jms.ConnectionFactory;
 import javax.servlet.ServletException;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Created by a.cirasole on 05/07/2017.
  */
 @SpringBootApplication
-public class SampleApplication {
+public class SampleApplication extends WebMvcConfigurerAdapter {
+
+  private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+      "classpath:/META-INF/resources/", "classpath:/resources/",
+      "classpath:/static/", "classpath:/public/"};
 
   /**
    * A main method to start this application.
@@ -46,7 +53,7 @@ public class SampleApplication {
 //  }
 
   @Bean
-  public JmsTransactionManager jmsTransactionManager (ConnectionFactory jmsConnectionFactory) {
+  public JmsTransactionManager jmsTransactionManager(ConnectionFactory jmsConnectionFactory) {
     return new JmsTransactionManager(jmsConnectionFactory);
   }
 
@@ -55,6 +62,26 @@ public class SampleApplication {
     ServletRegistrationBean registration = new ServletRegistrationBean(restletServlet);
     registration.addUrlMappings("/*");
     return registration;
+  }
+
+  @Bean
+  public ServletRegistrationBean mainServletRegistration() {
+    ServletRegistrationBean registration = new ServletRegistrationBean
+        (new CamelHttpTransportServlet(), "/camel/*");
+    registration.setName("CamelServlet");
+    return registration;
+  }
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    if (!registry.hasMappingForPattern("/webjars/**")) {
+      registry.addResourceHandler("/webjars/**").addResourceLocations(
+          "classpath:/META-INF/resources/webjars/");
+    }
+    if (!registry.hasMappingForPattern("/**")) {
+      registry.addResourceHandler("/**").addResourceLocations(
+          CLASSPATH_RESOURCE_LOCATIONS);
+    }
   }
 
 }
